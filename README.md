@@ -1,51 +1,36 @@
-# quick-api-path README
+# Quick API Path VS-Code Extention README
 
-This is the README for your extension "quick-api-path". After writing up a brief description, we recommend including the following sections.
+This is the README for the Quick API Path VS-Code Extention. It provides a simple way to generate API paths from file paths in your project. 
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- **Generate API Path**: Easily generate API paths based on the file paths in your project. 
+- **Keyboard Shortcut**: Use the shortcut `Ctrl + Alt + .` to quickly generate the API path when text is selected.
+  
 
-For example if there is an image subfolder under your extension project workspace:
+<img width="467" alt="image" src="https://github.com/user-attachments/assets/db966443-7448-41f2-adba-bafb56cce60c">
 
-\!\[feature X\]\(images/feature-x.png\)
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- **Visual Studio Code**: Ensure you have VS Code installed (version 1.94.0 or higher).
+- **Node.js**: This extension requires Node.js for development and testing.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+This extension does not currently add any custom VS Code settings.
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- If the keyboard shortcut `Ctrl + Alt + .` is not working as intended, consider checking for conflicts with existing shortcuts in your environment.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.0.1
 
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+- Initial release of **Quick API Path** extension.
+- Implemented the core functionality to generate API paths from selected text.
 
 ---
 
