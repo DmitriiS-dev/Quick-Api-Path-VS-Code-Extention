@@ -11,7 +11,6 @@ This is the README for your extension "quick-api-path". It provides a simple way
 <img width="467" alt="image" src="https://github.com/user-attachments/assets/db966443-7448-41f2-adba-bafb56cce60c">
 
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
 ## Requirements
 
