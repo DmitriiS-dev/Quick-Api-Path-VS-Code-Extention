@@ -3,6 +3,11 @@
   "displayName": "Quick API Path",
   "description": "A simple extension to generate API paths from file paths.",
   "version": "0.0.1",
+  "publisher": "dmitriiDev",
+  "repository": {
+    "type": "git",
+    "url":"https://github.com/Dmitrii-Siz/Quick-Api-Path-VS-Code-Extention"
+  },
   "engines": {
     "vscode": "^1.94.0"
   },
