@@ -7,7 +7,7 @@ This is the README for your extension "quick-api-path". It provides a simple way
 - **Generate API Path**: Easily generate API paths based on the file paths in your project. 
 - **Keyboard Shortcut**: Use the shortcut `Ctrl + Alt + .` to quickly generate the API path when text is selected.
   
-![Generating API Path]
+
 <img width="467" alt="image" src="https://github.com/user-attachments/assets/db966443-7448-41f2-adba-bafb56cce60c">
 
 
