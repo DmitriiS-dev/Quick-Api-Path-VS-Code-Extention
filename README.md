@@ -1,6 +1,6 @@
 # Quick API Path VS-Code Extention README
 
-This is the README for your extension "quick-api-path". It provides a simple way to generate API paths from file paths in your project. 
+This is the README for the Quick API Path VS-Code Extention. It provides a simple way to generate API paths from file paths in your project. 
 
 ## Features
 
