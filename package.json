@@ -1,12 +1,12 @@
 {
-  "name": "quick-api-path",
-  "displayName": "Quick API Path",
-  "description": "A simple extension to generate API paths from file paths.",
-  "version": "0.0.1",
+  "name": "pathy",
+  "displayName": "Pathy",
+  "description": "Generate API paths from file paths and Grab your entire project structure.",
+  "version": "0.0.2",
   "publisher": "dmitriiDev",
   "repository": {
     "type": "git",
-    "url":"https://github.com/Dmitrii-Siz/Quick-Api-Path-VS-Code-Extention"
+    "url":"https://github.com/DmitriiS-dev/Quick-Api-Path-VS-Code-Extention"
   },
   "engines": {
     "vscode": "^1.94.0"
@@ -16,16 +16,17 @@
   ],
   "activationEvents": [],
   "main": "./dist/extension.js",
+  "icon":"images/pathy-logo.png",
   "contributes": {
     "commands": [
       {
-        "command": "quick-api-path.generateApiPath",
-        "title": "Generate API Path From Copy Path"
+        "command": "pathy.generateApiPath",
+        "title": "Pathy - Generate API from paths & Grab you whole project Structure"
       }
     ],
     "keybindings": [
         {
-            "command": "quick-api-path.generateApiPath",
+            "command": "pathy.generateApiPath",
             "key": "ctrl+alt+.",
             "when": "editorHasSelection"
         }
@@ -286,5 +287,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }

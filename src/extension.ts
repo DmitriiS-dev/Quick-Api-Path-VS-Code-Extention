@@ -1,10 +1,12 @@
 import * as vscode from 'vscode';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export function activate(context: vscode.ExtensionContext) {
-    let disposable = vscode.commands.registerCommand('quick-api-path.generateApiPath', async () => {
+    let disposable = vscode.commands.registerCommand('pathy.generateApiPath', async () => {
         // Get active text editor
         const editor = vscode.window.activeTextEditor;
-
+        const workspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || '';
         let selectedPath = '';
         if (editor) {
             // If an editor is active, get the selected file's path
@@ -12,13 +14,13 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         // Create webview to display API path
-        createWebviewPanel(selectedPath);
+        createWebviewPanel(selectedPath,workspaceFolder);
     });
 
     context.subscriptions.push(disposable);
 }
 
-function createWebviewPanel(initialFilePath: string) {
+function createWebviewPanel(initialFilePath: string, workspaceFolder: string) {
     const panel = vscode.window.createWebviewPanel(
         'apiPathGenerator',
         'Generated API Path',
@@ -28,7 +30,8 @@ function createWebviewPanel(initialFilePath: string) {
         }
     );
 
-    panel.webview.html = getWebviewContent(initialFilePath);
+    const projectStructure = getProjectStructure(workspaceFolder);
+    panel.webview.html = getWebviewContent(initialFilePath, projectStructure);
 
     // Handle messages from the webview
     panel.webview.onDidReceiveMessage(async (message) => {
@@ -70,13 +73,45 @@ function createWebviewPanel(initialFilePath: string) {
         }
     });
 }
-function getWebviewContent(initialFilePath: string): string {
+function getProjectStructure(dir: string): any {
+    const result: any = {};
+    if (!dir) {
+        vscode.window.showErrorMessage("Workspace folder is missing.");
+        return result;
+    }
+
+    function readDirectory(directory: string, obj: any) {
+        try {
+            const items = fs.readdirSync(directory, { withFileTypes: true });
+            items.forEach((item) => {
+                const fullPath = path.join(directory, item.name);
+                if (item.isDirectory()) {
+                    obj[item.name] = {};
+                    readDirectory(fullPath, obj[item.name]);
+                } else {
+                    obj[item.name] = 'file';
+                }
+            });
+        } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+            vscode.window.showErrorMessage(`Error reading directory: ${errorMessage}`);
+        }
+
+    }
+
+    readDirectory(dir, result);
+    return result;
+}
+
+
+function getWebviewContent(initialFilePath: string, projectStructure: any): string {
+    const projectStructureJSON = JSON.stringify(projectStructure, null, 2);
     return `<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Generate API Path</title>
+        <title>Pathy</title>
         <style>
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -235,8 +270,7 @@ function getWebviewContent(initialFilePath: string): string {
     </head>
     <body>
         <div class="container">
-            <h1>API Path Generator</h1>
-
+            <h1>Pathy</h1>
             <div class="section">
                 <h2><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8m0-2C6.48 1 2 5.48 2 11s4.48 10 10 10 10-4.48 10-10S17.52 1 12 1zm-1 14.5h2v-6h-2v6zm0-8h2V7h-2v2.5z"/></svg> Convert Path to API Path</h2>
                 <h4>Example 'src\\api\\api-path' => 'src/api/api/path'</h4>
@@ -260,7 +294,14 @@ function getWebviewContent(initialFilePath: string): string {
                 <button id="validateJson">Validate JSON</button>
                 <div id="jsonSuccessMessage" class="success-message hidden">JSON is valid!</div>
                 <div id="jsonErrorMessage" class="error-message hidden">Invalid JSON: <span id="jsonErrorText"></span></div>
-            </div>            
+            </div> 
+            
+            <div class="section">
+                <h2>Project Structure</h2>
+                <textarea id="projectStructureOutput" readonly>${projectStructureJSON}</textarea>
+                <button id="copyProjectButton" class="copy-button">Copy</button>
+                <div id="projectCopyNotification" class="hidden">Project Structure Copied!</div>
+            </div>
         </div>
 
         <script>
@@ -287,6 +328,20 @@ function getWebviewContent(initialFilePath: string): string {
                 setTimeout(() => {
                     notification.classList.add('hidden');
                 }, 2000);
+            };
+            
+            document.getElementById('copyProjectButton').onclick = async () => {
+                const projectStructure = document.getElementById('projectStructureOutput').value;
+                try {
+                    await navigator.clipboard.writeText(projectStructure);
+                    const notification = document.getElementById('projectCopyNotification');
+                    notification.classList.remove('hidden');
+                    setTimeout(() => {
+                        notification.classList.add('hidden');
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy project structure to clipboard', err);
+                }
             };
 
             // Listen for messages from the extension
